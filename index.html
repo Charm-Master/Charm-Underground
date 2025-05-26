@@ -1,0 +1,906 @@
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1" name="viewport"/>
+  <title>
+   Charm Underground
+  </title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+   * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #fff;
+    color: #000;
+  }
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+  .container {
+    display: flex;
+    min-height: 100vh;
+  }
+  /* Sidebar */
+  .sidebar {
+    width: 240px;
+    border-right: 1px solid #eaeaea;
+    padding: 24px 20px 40px 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  .logo {
+    font-weight: 700;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+  }
+  .logo svg {
+    width: 20px;
+    height: 20px;
+    fill: #000;
+  }
+  .nav-home {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: #f5f5f7;
+    border-radius: 12px;
+    padding: 10px 16px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 24px;
+    cursor: pointer;
+  }
+  .nav-home i {
+    font-size: 16px;
+  }
+  .sidebar-projects-label {
+    font-size: 12px;
+    color: #9b9b9b;
+    margin-bottom: 12px;
+    user-select: none;
+  }
+  .sidebar-search-container { 
+    margin-bottom: 16px;
+    position: relative;
+  }
+  .sidebar-search-input { 
+    width: 100%;
+    padding: 8px 12px 8px 30px; 
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 13px;
+    font-family: 'Inter', sans-serif;
+  }
+  .sidebar-search-container .fa-search { 
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #9b9b9b;
+    font-size: 12px;
+  }
+
+  .sidebar-projects-list {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 12px 0;
+    flex-grow: 1;
+    overflow-y: auto; 
+    max-height: calc(100vh - 350px); 
+  }
+  .sidebar-projects-list li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    margin-bottom: 16px;
+    cursor: pointer;
+    padding: 4px 8px; 
+    border-radius: 4px; 
+    transition: background-color 0.1s ease-in-out;
+  }
+
+  .sidebar-projects-list li:hover { 
+    background-color: #f5f5f7;
+  }
+
+  .sidebar-projects-list li svg,
+  .sidebar-projects-list li i {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    text-align: center; /* Center FA icons */
+  }
+  .sidebar-projects-list li svg path,
+  .sidebar-projects-list li svg circle,
+  .sidebar-projects-list li svg rect {
+    fill: currentColor;
+  }
+  /* Colors for existing projects */
+  .sidebar-projects-list li.simple-calculator {
+    color: #9b4dff; 
+  }
+  .sidebar-projects-list li.weather-app {
+    color: #00b0ff; 
+  }
+  .sidebar-projects-list li.tic-tac-toe {
+    color: #1bc54d; 
+  }
+  .sidebar-projects-list li.task-list {
+    color: #e72f4b; 
+  }
+  .sidebar-projects-list li.hangman {
+    color: #007fff; 
+  }
+  .sidebar-projects-list li.basic-web-scraper {
+    color: #a56fff; 
+  }
+  /* Colors for new projects - sidebar text color */
+  .sidebar-projects-list li.number-guessing-game { color: #FF8C00; }
+  .sidebar-projects-list li.password-generator { color: #20B2AA; }
+  .sidebar-projects-list li.quiz-app { color: #4B0082; }
+  .sidebar-projects-list li.file-organizer { color: #32CD32; }
+  .sidebar-projects-list li.image-resizer { color: #FF69B4; }
+  .sidebar-projects-list li.url-shortener { color: #008B8B; }
+  .sidebar-projects-list li.markdown-to-html { color: #FFBF00; }
+  .sidebar-projects-list li.sudoku-solver { color: #673AB7; }
+  .sidebar-projects-list li.simple-flask-api { color: #A52A2A; }
+
+
+  .sidebar-projects-list li.hidden { 
+      display: none;
+  }
+
+  .show-other-projects {
+    font-size: 12px;
+    color: #9b9b9b;
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 24px;
+  }
+  .show-other-projects i {
+    font-size: 10px;
+  }
+  .add-projects-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #000;
+    background: #f5f5f7;
+    border-radius: 12px;
+    padding: 10px 16px;
+    cursor: pointer;
+    width: fit-content;
+  }
+  .add-projects-btn i {
+    font-size: 16px;
+  }
+
+  /* Main content */
+  .main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .top-bar {
+    background: #f7b600;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    padding: 12px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+  .top-bar .upgrade-btn {
+    background: #fff;
+    color: #f7b600;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 12px;
+    padding: 4px 12px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .top-bar .upgrade-btn:hover {
+    background: #fff8d6;
+  }
+  .top-bar .text-bold {
+    font-weight: 700;
+  }
+
+  .header-bar {
+    background: #fff;
+    border-bottom: 1px solid #eaeaea;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 12px;
+  }
+  .header-bar .no-access { 
+    background: #f5f5f7;
+    color: #9b9b9b;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 12px;
+    padding: 6px 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .header-bar .upgrade-btn-top {
+    background: #f7b600;
+    color: #fff;
+    font-weight: 600;
+    font-size: 12px;
+    border-radius: 12px;
+    padding: 6px 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .header-bar .upgrade-btn-top:hover {
+    background: #e0a800;
+  }
+  /* Styles for the user icon */
+  .header-bar .fas.fa-user {
+    width: 32px;
+    height: 32px;
+    background: #6a6aff;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 16px; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    user-select: none;
+  }
+
+
+  /* Your projects heading */
+  .projects-section {
+    padding: 24px 24px 40px 24px;
+  }
+  .projects-section h2 {
+    font-weight: 700;
+    font-size: 18px;
+    margin: 0 0 24px 0;
+  }
+
+  /* Project cards grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap: 20px;
+  }
+
+  /* Project card base */
+  .project-card {
+    border-radius: 16px;
+    color: #fff;
+    padding: 20px 20px 20px 20px;
+    position: relative;
+    overflow: hidden;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out, box-shadow 0.1s ease-in-out; 
+  }
+
+  .project-card:hover { 
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+
+  .project-card:active {
+      transform: scale(0.98) translateY(0);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  }
+
+  .project-card .project-info {
+    z-index: 2;
+  }
+  .project-card .project-level {
+    font-size: 11px;
+    font-weight: 600;
+    opacity: 0.8;
+    margin-bottom: 6px;
+  }
+  .project-card .project-name {
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+  
+  /* Project card icons - bottom right corner */
+  .project-icon {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    opacity: 0.15;
+    width: 90px;
+    height: 90px;
+  }
+
+  /* Colors and icons for each project */
+  .simple-calculator {
+    background: #9b4dff;
+  }
+  .simple-calculator .project-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+  }
+  .weather-app {
+    background: #00b0ff;
+  }
+  .weather-app .project-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+  }
+  .tic-tac-toe {
+    background: #1bc54d;
+  }
+  .tic-tac-toe .project-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+  }
+  .task-list {
+    background: #e72f4b;
+  }
+  .task-list .project-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+  }
+  .hangman {
+    background: #007fff;
+  }
+  .hangman .project-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+  }
+  .basic-web-scraper {
+    background: #a56fff;
+  }
+  .basic-web-scraper .project-icon img {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+  }
+  /* Colors for new projects - card background */
+  .number-guessing-game { background: #FF8C00; }
+  .number-guessing-game .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .password-generator { background: #20B2AA; }
+  .password-generator .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .quiz-app { background: #4B0082; }
+  .quiz-app .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .file-organizer { background: #32CD32; }
+  .file-organizer .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .image-resizer { background: #FF69B4; }
+  .image-resizer .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .url-shortener { background: #008B8B; }
+  .url-shortener .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .markdown-to-html { background: #FFBF00; }
+  .markdown-to-html .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .sudoku-solver { background: #673AB7; }
+  .sudoku-solver .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+  .simple-flask-api { background: #A52A2A; }
+  .simple-flask-api .project-icon img { width: 90px; height: 90px; object-fit: contain; }
+
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+    }
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid #eaeaea;
+      padding: 16px 16px 24px 16px;
+      flex-direction: row; 
+      align-items: center; 
+      overflow-x: auto;
+      gap: 16px; 
+    }
+    .logo { 
+        margin-bottom: 0; 
+        flex-shrink: 0;
+    }
+    .nav-home { 
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+    .sidebar-projects-label { 
+        display: none;
+    }
+    .sidebar-search-container { 
+        margin-bottom: 0;
+        min-width: 150px; 
+        flex-shrink: 0;
+    }
+    .sidebar-projects-list {
+      display: flex;
+      gap: 16px; 
+      margin-bottom: 0;
+      flex-grow: 1; 
+      overflow-x: auto; 
+      overflow-y: hidden;
+      max-height: none; 
+      padding-bottom: 8px; 
+    }
+    .sidebar-projects-list li {
+      margin-bottom: 0;
+      white-space: nowrap;
+      padding: 4px 8px; 
+    }
+     .sidebar-projects-list li:hover { 
+      background-color: #f5f5f7;
+    }
+    .show-other-projects {
+      display: none;
+    }
+    .add-projects-btn {
+      flex-shrink: 0;
+    }
+    .main-content {
+      padding-top: 0;
+    }
+    .top-bar {
+      font-size: 12px;
+      padding: 10px 16px;
+    }
+    .header-bar {
+      padding: 10px 16px;
+    }
+    .projects-section {
+      padding: 16px 16px 32px 16px;
+    }
+    .projects-section h2 {
+      font-size: 16px;
+      margin-bottom: 16px;
+    }
+    .projects-grid {
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+  }
+  @media (max-width: 400px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  </style>
+ </head>
+ <body>
+  <div class="container">
+   <aside aria-label="Sidebar navigation" class="sidebar">
+    <div aria-label="Charm Underground logo" class="logo">
+     <svg aria-hidden="true" fill="none" focusable="false" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <path d="M12 2L14.09 8.26L20.97 8.27L15.45 12.97L17.54 19.23L12 14.53L6.46 19.23L8.55 12.97L3.03 8.27L9.91 8.26L12 2Z" fill="currentColor">
+      </path>
+     </svg>
+     Charm Underground
+    </div>
+    <nav>
+     <div aria-current="page" class="nav-home" role="link" tabindex="0">
+      <i aria-hidden="true" class="fas fa-home">
+      </i>
+      Home
+     </div>
+     <div class="sidebar-projects-label">
+      Project Hub
+     </div>
+     <div class="sidebar-search-container"> 
+        <i class="fas fa-search"></i>
+        <input type="search" class="sidebar-search-input" placeholder="Search projects..." aria-label="Search projects">
+     </div>
+     <ul class="sidebar-projects-list" role="list">
+      <li class="simple-calculator" tabindex="0" data-project-name="Simple Calculator" data-project-slug="simple-calculator">
+       <svg aria-hidden="true" fill="none" focusable="false" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+        <path d="M6 19L18 5" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+        <path d="M6 5L18 19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+       Simple Calculator
+      </li>
+      <li class="weather-app" tabindex="0" data-project-name="Weather App" data-project-slug="weather-app">
+       <svg aria-hidden="true" fill="none" focusable="false" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+        <rect height="16" rx="2" stroke="currentColor" stroke-linejoin="round" stroke-width="2" width="18" x="3" y="4">
+        </rect>
+        <path d="M8 9H16" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+        <path d="M8 13H14" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+       Weather App
+      </li>
+      <li class="tic-tac-toe" tabindex="0" data-project-name="Tic Tac Toe" data-project-slug="tic-tac-toe">
+       <svg aria-hidden="true" fill="none" focusable="false" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2">
+        </circle>
+        <path d="M12 2V5" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+        <path d="M12 19V22" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+        <path d="M5 12H2" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+        <path d="M22 12H19" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+        <path d="M16.24 7.76L14.12 9.88" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+        <path d="M9.88 14.12L7.76 16.24" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+       </svg>
+       Tic Tac Toe
+      </li>
+      <li class="task-list" tabindex="0" data-project-name="Task List" data-project-slug="task-list">
+       <svg aria-hidden="true" fill="none" focusable="false" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2">
+        </circle>
+        <path d="M12 2C13.5 4 15 6 15 8C15 10 13 12 13 14C13 16 15 18 15 20" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+       </svg>
+       Task List
+      </li>
+      <li class="hangman" tabindex="0" data-project-name="Hangman" data-project-slug="hangman">
+       <svg aria-hidden="true" fill="none" focusable="false" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L16 6V20H8V6L12 2Z" stroke="currentColor" stroke-linejoin="round" stroke-width="2">
+        </path>
+        <path d="M12 10V14" stroke="currentColor" stroke-linecap="round" stroke-width="2">
+        </path>
+       </svg>
+       Hangman
+      </li>
+      <li class="basic-web-scraper" tabindex="0" data-project-name="Basic Web Scraper" data-project-slug="basic-web-scraper">
+       <svg aria-hidden="true" fill="none" focusable="false" height="18" viewbox="0 0 24 24" width="18" xmlns="http://www.w3.org/2000/svg">
+        <rect height="10" rx="2" stroke="currentColor" stroke-width="2" width="18" x="3" y="7">
+        </rect>
+        <path d="M8 12L10 14L8 16" stroke="currentColor" stroke-linejoin="round" stroke-width="2">
+        </path>
+       </svg>
+       Basic Web Scraper
+      </li>
+      <li class="number-guessing-game" tabindex="0" data-project-name="Number Guessing Game" data-project-slug="number-guessing-game">
+        <i aria-hidden="true" class="fas fa-dice"></i>
+        Number Guessing Game
+      </li>
+      <li class="password-generator" tabindex="0" data-project-name="Password Generator" data-project-slug="password-generator">
+        <i aria-hidden="true" class="fas fa-key"></i>
+        Password Generator
+      </li>
+      <li class="quiz-app" tabindex="0" data-project-name="Quiz Application" data-project-slug="quiz-app">
+        <i aria-hidden="true" class="fas fa-question-circle"></i>
+        Quiz Application
+      </li>
+      <li class="file-organizer" tabindex="0" data-project-name="File Organizer" data-project-slug="file-organizer">
+        <i aria-hidden="true" class="fas fa-folder-open"></i>
+        File Organizer
+      </li>
+      <li class="image-resizer" tabindex="0" data-project-name="Image Resizer" data-project-slug="image-resizer">
+        <i aria-hidden="true" class="fas fa-crop-alt"></i>
+        Image Resizer
+      </li>
+      <li class="url-shortener" tabindex="0" data-project-name="URL Shortener" data-project-slug="url-shortener">
+        <i aria-hidden="true" class="fas fa-link"></i>
+        URL Shortener
+      </li>
+      <li class="markdown-to-html" tabindex="0" data-project-name="Markdown to HTML Converter" data-project-slug="markdown-to-html">
+        <i aria-hidden="true" class="fas fa-file-alt"></i>
+        Markdown to HTML
+      </li>
+      <li class="sudoku-solver" tabindex="0" data-project-name="Sudoku Solver" data-project-slug="sudoku-solver">
+        <i aria-hidden="true" class="fas fa-th"></i>
+        Sudoku Solver
+      </li>
+      <li class="simple-flask-api" tabindex="0" data-project-name="Simple API with Flask" data-project-slug="simple-flask-api">
+        <i aria-hidden="true" class="fas fa-server"></i>
+        Simple API (Flask)
+      </li>
+     </ul>
+     <div aria-controls="other-projects-list" aria-expanded="false" class="show-other-projects" tabindex="0">
+      Show other projects
+      <i aria-hidden="true" class="fas fa-chevron-down">
+      </i>
+     </div>
+     <div aria-label="Add Projects" class="add-projects-btn" role="button" tabindex="0">
+      <i class="fas fa-plus">
+      </i>
+      Add Projects
+     </div>
+    </nav>
+   </aside>
+   <main class="main-content" role="main">
+    <div aria-live="polite" class="top-bar">
+     <span>
+      <span class="text-bold">
+       you do not have access to the premium verison
+      </span>
+     </span>
+     <button aria-label="Upgrade for unlimited" class="upgrade-btn" type="button">
+      Upgrade for unlimited
+     </button>
+    </div>
+    <div class="header-bar">
+     <div aria-label="No access to custom coded projects" class="no-access">
+      <i aria-hidden="true" class="fas fa-bolt">
+      </i>
+      no access to custom coded projects for you
+     </div>
+     <button aria-label="Upgrade" class="upgrade-btn-top" type="button">
+      <i aria-hidden="true" class="fas fa-star">
+      </i>
+      Upgrade
+     </button>
+     <div aria-label="User profile" aria-roledescription="User avatar" role="img">
+      <i class="fas fa-user"></i>
+     </div>
+    </div>
+    <section aria-label="Your projects" class="projects-section">
+     <h2>
+      Your projects
+     </h2>
+     <div class="projects-grid">
+      <article aria-label="Beginner Python Simple Calculator project card" class="project-card simple-calculator" tabindex="0" data-project-name="Simple Calculator" data-project-slug="simple-calculator">
+       <div class="project-info">
+        <div class="project-level">
+         Beginner Python
+        </div>
+        <div class="project-name">
+         Simple Calculator
+        </div>
+       </div>
+       <div aria-hidden="true" class="project-icon">
+        <img alt="Decorative icon of a calculator in purple color" height="90" src="/simple-calculator-icon.png" width="90"/>
+       </div>
+      </article>
+      <article aria-label="Intermediate Python Weather App project card" class="project-card weather-app" tabindex="0" data-project-name="Weather App" data-project-slug="weather-app">
+       <div class="project-info">
+        <div class="project-level">
+         Intermediate Python
+        </div>
+        <div class="project-name">
+         Weather App
+        </div>
+       </div>
+       <div aria-hidden="true" class="project-icon">
+        <img alt="Decorative icon of a cloud and sun in blue color" height="90" src="/weather-app-icon.png" width="90"/>
+       </div>
+      </article>
+      <article aria-label="Beginner Python Tic Tac Toe project card" class="project-card tic-tac-toe" tabindex="0" data-project-name="Tic Tac Toe" data-project-slug="tic-tac-toe">
+       <div class="project-info">
+        <div class="project-level">
+         Beginner Python
+        </div>
+        <div class="project-name">
+         Tic Tac Toe
+        </div>
+       </div>
+       <div aria-hidden="true" class="project-icon">
+        <img alt="Decorative icon of a tic tac toe board in green color" height="90" src="/tic-tac-toe-icon.png" width="90"/>
+       </div>
+      </article>
+      <article aria-label="Intermediate Python Task List project card" class="project-card task-list" tabindex="0" data-project-name="Task List" data-project-slug="task-list">
+       <div class="project-info">
+        <div class="project-level">
+         Intermediate Python
+        </div>
+        <div class="project-name">
+         Task List
+        </div>
+       </div>
+       <div aria-hidden="true" class="project-icon">
+        <img alt="Decorative icon of a checklist in red color" height="90" src="/task-list-icon.png" width="90"/>
+       </div>
+      </article>
+      <article aria-label="Beginner Python Hangman project card" class="project-card hangman" tabindex="0" data-project-name="Hangman" data-project-slug="hangman">
+       <div class="project-info">
+        <div class="project-level">
+         Beginner Python
+        </div>
+        <div class="project-name">
+         Hangman
+        </div>
+       </div>
+       <div aria-hidden="true" class="project-icon">
+        <img alt="Decorative icon of a hangman gallows in blue color" height="90" src="/hangman-icon.png" width="90"/>
+       </div>
+      </article>
+      <article aria-label="Advanced Python Basic Web Scraper project card" class="project-card basic-web-scraper" tabindex="0" data-project-name="Basic Web Scraper" data-project-slug="basic-web-scraper">
+       <div class="project-info">
+        <div class="project-level">
+         Advanced Python
+        </div>
+        <div class="project-name">
+         Basic Web Scraper
+        </div>
+       </div>
+       <div aria-hidden="true" class="project-icon">
+        <img alt="Decorative icon of a spider web in purple color" height="90" src="/basic-web-scraper-icon.png" width="90"/>
+       </div>
+      </article>
+      <article aria-label="Beginner Python Number Guessing Game project card" class="project-card number-guessing-game" tabindex="0" data-project-name="Number Guessing Game" data-project-slug="number-guessing-game">
+        <div class="project-info">
+          <div class="project-level">Beginner Python</div>
+          <div class="project-name">Number Guessing Game</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for Number Guessing Game" height="90" src="/number-guessing-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Beginner Python Password Generator project card" class="project-card password-generator" tabindex="0" data-project-name="Password Generator" data-project-slug="password-generator">
+        <div class="project-info">
+          <div class="project-level">Beginner Python</div>
+          <div class="project-name">Password Generator</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for Password Generator" height="90" src="/password-generator-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Intermediate Python Quiz Application project card" class="project-card quiz-app" tabindex="0" data-project-name="Quiz Application" data-project-slug="quiz-app">
+        <div class="project-info">
+          <div class="project-level">Intermediate Python</div>
+          <div class="project-name">Quiz Application</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for Quiz Application" height="90" src="/quiz-app-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Intermediate Python File Organizer project card" class="project-card file-organizer" tabindex="0" data-project-name="File Organizer" data-project-slug="file-organizer">
+        <div class="project-info">
+          <div class="project-level">Intermediate Python</div>
+          <div class="project-name">File Organizer</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for File Organizer" height="90" src="/file-organizer-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Intermediate Python Image Resizer project card" class="project-card image-resizer" tabindex="0" data-project-name="Image Resizer" data-project-slug="image-resizer">
+        <div class="project-info">
+          <div class="project-level">Intermediate Python</div>
+          <div class="project-name">Image Resizer</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for Image Resizer" height="90" src="/image-resizer-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Intermediate Python URL Shortener project card" class="project-card url-shortener" tabindex="0" data-project-name="URL Shortener" data-project-slug="url-shortener">
+        <div class="project-info">
+          <div class="project-level">Intermediate Python</div>
+          <div class="project-name">URL Shortener</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for URL Shortener" height="90" src="/url-shortener-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Intermediate Python Markdown to HTML Converter project card" class="project-card markdown-to-html" tabindex="0" data-project-name="Markdown to HTML Converter" data-project-slug="markdown-to-html">
+        <div class="project-info">
+          <div class="project-level">Intermediate Python</div>
+          <div class="project-name">Markdown to HTML</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for Markdown to HTML Converter" height="90" src="/markdown-to-html-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Advanced Python Sudoku Solver project card" class="project-card sudoku-solver" tabindex="0" data-project-name="Sudoku Solver" data-project-slug="sudoku-solver">
+        <div class="project-info">
+          <div class="project-level">Advanced Python</div>
+          <div class="project-name">Sudoku Solver</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for Sudoku Solver" height="90" src="/sudoku-solver-icon.png" width="90"/>
+        </div>
+      </article>
+      <article aria-label="Advanced Python Simple API with Flask project card" class="project-card simple-flask-api" tabindex="0" data-project-name="Simple API with Flask" data-project-slug="simple-flask-api">
+        <div class="project-info">
+          <div class="project-level">Advanced Python</div>
+          <div class="project-name">Simple API (Flask)</div>
+        </div>
+        <div aria-hidden="true" class="project-icon">
+          <img alt="Decorative icon for Simple API with Flask" height="90" src="/simple-flask-api-icon.png" width="90"/>
+        </div>
+      </article>
+     </div>
+    </section>
+   </main>
+  </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const navigateTo = (url) => {
+        window.location.href = url;
+      };
+
+      const addNavigationListener = (element, url) => {
+        if (element) {
+          element.addEventListener('click', () => navigateTo(url));
+          element.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') {
+              navigateTo(url);
+            }
+          });
+        }
+      };
+      
+      const getProjectSlug = (element) => {
+          if (element.dataset.projectSlug) {
+              return element.dataset.projectSlug;
+          }
+          const projectNameElement = element.querySelector('.project-name') || element;
+          const projectName = projectNameElement.textContent.trim();
+          return projectName.toLowerCase().replace(/\s+/g, '-');
+      };
+
+      document.querySelectorAll('.projects-grid .project-card').forEach(card => {
+        const slug = getProjectSlug(card);
+        addNavigationListener(card, `project-view.html?project=${slug}`);
+      });
+
+      document.querySelectorAll('.sidebar-projects-list li').forEach(item => {
+        const slug = getProjectSlug(item);
+        addNavigationListener(item, `project-view.html?project=${slug}`);
+      });
+
+      const homeBtn = document.querySelector('.nav-home');
+      addNavigationListener(homeBtn, 'index.html');
+      
+      const showOtherBtn = document.querySelector('.show-other-projects');
+      if (showOtherBtn) {
+        showOtherBtn.addEventListener('click', () => console.log('Show other projects button clicked'));
+        showOtherBtn.addEventListener('keypress', (event) => {
+            if (event.key === 'Enter') console.log('Show other projects button activated (Enter key)');
+        });
+      }
+
+      const addProjectsBtn = document.querySelector('.add-projects-btn');
+      addNavigationListener(addProjectsBtn, 'add-project.html');
+      
+      const topBarUpgradeBtn = document.querySelector('.top-bar .upgrade-btn');
+      addNavigationListener(topBarUpgradeBtn, 'upgrade.html');
+
+      const headerUpgradeBtn = document.querySelector('.header-bar .upgrade-btn-top');
+      addNavigationListener(headerUpgradeBtn, 'upgrade.html');
+
+      const searchInput = document.querySelector('.sidebar-search-input');
+      const projectListItems = document.querySelectorAll('.sidebar-projects-list li');
+
+      if (searchInput) {
+        searchInput.addEventListener('input', (event) => {
+          const searchTerm = event.target.value.toLowerCase();
+          projectListItems.forEach(item => {
+            const projectName = item.dataset.projectName ? item.dataset.projectName.toLowerCase() : item.textContent.trim().toLowerCase();
+            if (projectName.includes(searchTerm)) {
+              item.classList.remove('hidden');
+            } else {
+              item.classList.add('hidden');
+            }
+          });
+        });
+      }
+    });
+  </script>
+ </body>
+</html>

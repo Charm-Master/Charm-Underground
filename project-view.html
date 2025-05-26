@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project View</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+        .header-simple {
+            background-color: #fff;
+            padding: 15px 30px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header-simple .logo-simple {
+            font-weight: 700;
+            font-size: 20px;
+            color: #000;
+        }
+        .logo-simple svg {
+             width: 20px;
+             height: 20px;
+             fill: #000;
+             margin-right: 8px;
+             vertical-align: middle;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            color: #333;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        .back-link:hover {
+            background-color: #e0e0e0;
+        }
+        .back-link i {
+            font-size: 12px;
+        }
+        .main-project-content {
+            flex-grow: 1;
+            padding: 30px;
+            max-width: 900px;
+            margin: 0 auto;
+            width: 100%;
+        }
+        .project-title-display {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 24px;
+            color: #000;
+            border-bottom: 2px solid #f7b600;
+            padding-bottom: 10px;
+        }
+        .project-section {
+            background-color: #fff;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 24px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        .project-section .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        .project-section h2 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 0;
+            margin-bottom: 0; 
+            color: #333;
+        }
+        .download-btn {
+            background-color: #f0f0f0;
+            color: #333;
+            border: 1px solid #ddd;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        .download-btn:hover {
+            background-color: #e0e0e0;
+        }
+        .download-btn i {
+            margin-right: 6px;
+        }
+
+        .code-placeholder, .guide-placeholder {
+            background-color: #2d2d2d;
+            color: #f0f0f0;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 14px;
+            line-height: 1.6;
+            min-height: 200px;
+            white-space: pre-wrap; 
+            overflow-x: auto; 
+        }
+        .guide-placeholder {
+            font-family: 'Inter', sans-serif; 
+            background-color: #fff; 
+            color: #111; 
+            font-size: 14px;
+            line-height: 1.7; 
+            padding: 15px; 
+        }
+        .guide-placeholder h3 {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000; 
+            margin-top: 0; 
+            margin-bottom: 12px;
+        }
+        .guide-placeholder p {
+            margin-bottom: 12px;
+            color: #111; 
+        }
+        .guide-placeholder ul {
+            list-style-position: outside;
+            padding-left: 20px; 
+            margin-bottom: 12px;
+        }
+        .guide-placeholder li {
+            margin-bottom: 6px;
+            color: #111; 
+        }
+        .guide-placeholder strong {
+            font-weight: 600; 
+        }
+        .guide-placeholder a {
+            color: #007bff; 
+            text-decoration: underline;
+        }
+        .guide-placeholder a:hover {
+            color: #0056b3;
+        }
+        .footer-simple {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #777;
+            border-top: 1px solid #eaeaea;
+            background-color: #fff;
+        }
+        @media (max-width: 768px) {
+            .main-project-content {
+                padding: 20px;
+            }
+            .project-title-display {
+                font-size: 24px;
+            }
+            .project-section h2 {
+                font-size: 18px;
+            }
+            .header-simple {
+                padding: 10px 15px;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .project-section .code-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            .download-btn {
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header-simple">
+        <div class="logo-simple">
+            <svg aria-hidden="true" fill="none" focusable="false" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20.97 8.27L15.45 12.97L17.54 19.23L12 14.53L6.46 19.23L8.55 12.97L3.03 8.27L9.91 8.26L12 2Z" fill="currentColor"></path></svg>
+            Charm Underground
+        </div>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+    </header>
+
+    <main class="main-project-content">
+        <h1 id="projectTitle" class="project-title-display">Project Name</h1>
+
+        <section class="project-section" aria-labelledby="codeSectionHeading">
+            <div class="code-header">
+                <h2 id="codeSectionHeading">Code</h2>
+                <button id="downloadCodeBtn" class="download-btn" aria-label="Download code">
+                    <i class="fas fa-download"></i> Download Code
+                </button>
+            </div>
+            <div class="code-placeholder" id="codeContent">
+                // Code for the project will be displayed here.
+                // For example:
+                // function greet(name) {
+                //   console.log("Hello, " + name + "!");
+                // }
+                // greet("Developer");
+            </div>
+        </section>
+
+        <section class="project-section" aria-labelledby="guideSectionHeading">
+            <h2 id="guideSectionHeading">Guide / Comments</h2>
+            <div class="guide-placeholder" id="guideContent">
+                <!-- Heavy comments and guide for understanding the project will appear here. -->
+                This section will contain detailed explanations, setup instructions,
+                and comments about the project's codebase and functionality.
+                It will help users understand how the project works and how to modify or extend it.
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer-simple">
+        &copy; <span id="currentYear"></span> Charm Underground. All rights reserved.
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const projectSlug = params.get('project');
+            const projectTitleElement = document.getElementById('projectTitle');
+            
+            let projectDisplayName = 'Unknown Project';
+            if (projectSlug) {
+                projectDisplayName = projectSlug
+                    .split('-')
+                    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                    .join(' ');
+            }
+            
+            if (projectTitleElement) {
+                projectTitleElement.textContent = projectDisplayName;
+            }
+            document.title = projectDisplayName + " | Charm Underground";
+
+
+            const codeContentElement = document.getElementById('codeContent');
+            const guideContentElement = document.getElementById('guideContent');
+            const downloadCodeBtn = document.getElementById('downloadCodeBtn');
+
+            if (downloadCodeBtn && codeContentElement) {
+                downloadCodeBtn.addEventListener('click', () => {
+                    const code = codeContentElement.textContent;
+                    const filename = projectSlug ? `${projectSlug}.py` : 'project_code.py'; 
+                    const blob = new Blob([code], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = filename;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                });
+            }
+
+            if (codeContentElement && guideContentElement) {
+                if (projectSlug === 'simple-calculator') {
+                    codeContentElement.textContent = `
+// Python code for a Simple Calculator
+def add(x, y):
+    return x + y
+
+def subtract(x, y):
+    return x - y
+
+def multiply(x, y):
+    return x * y
+
+def divide(x, y):
+    if y == 0:
+        return "Error! Division by zero."
+    return x / y
+
+print("Select operation:")
+print("1.Add")
+print("2.Subtract")
+print("3.Multiply")
+print("4.Divide")
+
+# This part will take user input
+# choice = input("Enter choice(1/2/3/4): ")
+# num1 = float(input("Enter first number: "))
+# num2 = float(input("Enter second number: "))
+
+# if choice == '1':
+#    print(num1, "+", num2, "=", add(num1, num2))
+# elif choice == '2':
+#    print(num1, "-", num2, "=", subtract(num1, num2))
+# elif choice == '3':
+#    print(num1, "*", num2, "=", multiply(num1, num2))
+# elif choice == '4':
+#    print(num1, "/", num2, "=", divide(num1, num2))
+# else:
+#    print("Invalid input")
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>Simple Calculator Guide</h3>
+                        <p>This Python script implements a basic command-line calculator. It's a great starting point for understanding functions and user input in Python.</p>
+                        <h4>Key Features:</h4>
+                        <ul>
+                            <li>Defines separate functions for addition, subtraction, multiplication, and division.</li>
+                            <li>Includes basic error handling for division by zero.</li>
+                            <li>Prompts the user to select an operation and input two numbers.</li>
+                        </ul>
+                        <p><strong>To run this project:</strong></p>
+                        <ol>
+                            <li>Save the code as a Python file (e.g., <code>calculator.py</code>).</li>
+                            <li>Open a terminal or command prompt.</li>
+                            <li>Navigate to the directory where you saved the file.</li>
+                            <li>Run the script using the command: <code>python calculator.py</code>.</li>
+                            <li>Follow the on-screen prompts to perform calculations.</li>
+                        </ol>
+                        <p>This project demonstrates fundamental programming concepts such as function definition, conditional statements (if-elif-else), and handling user input.</p>
+                    `;
+                } else if (projectSlug === 'weather-app') {
+                     codeContentElement.textContent = `
+// Python code for a Weather App (conceptual)
+import requests // Don't forget to install: pip install requests
+import json
+
+def get_weather(api_key, city):
+    base_url = "http://api.openweathermap.org/data/2.5/weather?"
+    # Construct the complete URL with parameters
+    # units=metric for Celsius, units=imperial for Fahrenheit
+    complete_url = f"{base_url}appid={api_key}&q={city}&units=metric" 
+    
+    try:
+        response = requests.get(complete_url)
+        response.raise_for_status() // Raises an HTTPError for bad responses (4XX or 5XX)
+        
+        data = response.json() // Parse the JSON response
+
+        if data["cod"] != "404": // Check if city was found
+            main_data = data["main"]
+            temperature = main_data["temp"]
+            feels_like = main_data["feels_like"]
+            humidity = main_data["humidity"]
+            
+            weather_data = data["weather"][0]
+            weather_description = weather_data["description"]
+            
+            wind_data = data["wind"]
+            wind_speed = wind_data["speed"]
+
+            return (
+                f"Weather in {data['name']}:\\n"
+                f"  Temperature: {temperature}°C (Feels like: {feels_like}°C)\\n"
+                f"  Humidity: {humidity}%\\n"
+                f"  Conditions: {weather_description.capitalize()}\\n"
+                f"  Wind Speed: {wind_speed} m/s"
+            )
+        else:
+            return "City Not Found. Please check the spelling."
+            
+    except requests.exceptions.HTTPError as http_err:
+        return f"HTTP error occurred: {http_err}"
+    except requests.exceptions.ConnectionError as conn_err:
+        return f"Connection error occurred: {conn_err}"
+    except requests.exceptions.Timeout as timeout_err:
+        return f"Timeout error occurred: {timeout_err}"
+    except requests.exceptions.RequestException as req_err:
+        return f"An error occurred: {req_err}"
+    except KeyError:
+        return "Could not parse weather data. The API response structure might have changed."
+
+// Example usage:
+// api_key = "YOUR_OPENWEATHERMAP_API_KEY" // Replace with your actual API key
+// city_name = input("Enter city name: ")
+// if api_key == "YOUR_OPENWEATHERMAP_API_KEY":
+// print("Please replace 'YOUR_OPENWEATHERMAP_API_KEY' with your actual OpenWeatherMap API key.")
+// else:
+// print(get_weather(api_key, city_name))
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>Weather App Guide</h3>
+                        <p>This Python script fetches current weather data for a specified city using the OpenWeatherMap API. It demonstrates API interaction, JSON parsing, and error handling.</p>
+                        <h4>Prerequisites:</h4>
+                        <ul>
+                            <li>Install the <strong>requests</strong> library: <code>pip install requests</code> in your terminal.</li>
+                            <li>Sign up at <a href="https://openweathermap.org/appid" target="_blank" rel="noopener noreferrer">OpenWeatherMap</a> to get a free API key.</li>
+                        </ul>
+                        <h4>Functionality:</h4>
+                        <ul>
+                            <li>The <code>get_weather(api_key, city)</code> function takes an API key and a city name as input.</li>
+                            <li>It constructs the API request URL and fetches data.</li>
+                            <li>Parses the JSON response to extract key weather information: temperature, humidity, conditions, and wind speed.</li>
+                            <li>Includes error handling for network issues, invalid API responses, and incorrect city names.</li>
+                        </ul>
+                        <p><strong>How to use:</strong></p>
+                        <ol>
+                            <li>Replace <code>"YOUR_OPENWEATHERMAP_API_KEY"</code> in the script with your actual API key.</li>
+                            <li>Uncomment the example usage lines at the bottom of the script.</li>
+                            <li>Run the script from your terminal: <code>python weather_app.py</code> (assuming you saved it as <code>weather_app.py</code>).</li>
+                            <li>Enter a city name when prompted.</li>
+                        </ol>
+                        <p>This project is a good example of how Python can be used to interact with web services and process data from the internet.</p>
+                    `;
+                } else if (projectSlug === 'number-guessing-game') {
+                    codeContentElement.textContent = `
+// Python code for Number Guessing Game
+import random
+
+def guess_the_number():
+    number_to_guess = random.randint(1, 100)
+    attempts = 0
+    guess = None
+
+    print("Welcome to the Number Guessing Game!")
+    print("I've picked a number between 1 and 100. Try to guess it!")
+
+    while guess != number_to_guess:
+        try:
+            guess = int(input("Enter your guess: "))
+            attempts += 1
+
+            if guess < number_to_guess:
+                print("Too low! Try again.")
+            elif guess > number_to_guess:
+                print("Too high! Try again.")
+            else:
+                print(f"Congratulations! You guessed the number {number_to_guess} in {attempts} attempts.")
+        except ValueError:
+            print("Invalid input. Please enter a number.")
+
+// Start the game
+// guess_the_number()
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>Number Guessing Game Guide</h3>
+                        <p>A classic beginner project. The computer picks a random number, and the user tries to guess it with hints.</p>
+                        <h4>Key Concepts:</h4>
+                        <ul>
+                            <li>Random number generation (<code>random</code> module).</li>
+                            <li>User input and type conversion (<code>input()</code>, <code>int()</code>).</li>
+                            <li>Loops (<code>while</code>) for repeated guessing.</li>
+                            <li>Conditional statements (<code>if/elif/else</code>) for hints.</li>
+                            <li>Basic error handling (<code>try/except</code> for non-numeric input).</li>
+                        </ul>
+                        <p><strong>How to play:</strong></p>
+                        <ol>
+                            <li>Run the Python script.</li>
+                            <li>The game will prompt you to enter a guess between 1 and 100.</li>
+                            <li>Based on your guess, it will tell you if your guess is too high or too low.</li>
+                            <li>Keep guessing until you find the correct number!</li>
+                        </ol>
+                    `;
+                } else if (projectSlug === 'password-generator') {
+                    codeContentElement.textContent = `
+// Python code for Password Generator
+import random
+import string
+
+def generate_password(length=12, use_uppercase=True, use_digits=True, use_symbols=True):
+    characters = string.ascii_lowercase
+    if use_uppercase:
+        characters += string.ascii_uppercase
+    if use_digits:
+        characters += string.digits
+    if use_symbols:
+        characters += string.punctuation
+
+    if not characters:
+        return "Error: No character types selected for password."
+
+    password = ''.join(random.choice(characters) for i in range(length))
+    return password
+
+// Example usage:
+// my_password = generate_password(length=16, use_symbols=False)
+// print(f"Generated password: {my_password}")
+
+// Stronger password example:
+// strong_password = generate_password(length=20, use_uppercase=True, use_digits=True, use_symbols=True)
+// print(f"Strong password: {strong_password}")
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>Password Generator Guide</h3>
+                        <p>This script generates random, strong passwords based on specified criteria (length, inclusion of uppercase, digits, symbols).</p>
+                        <h4>Key Concepts:</h4>
+                        <ul>
+                            <li>String manipulation (<code>string</code> module constants).</li>
+                            <li>Random selection (<code>random.choice</code>).</li>
+                            <li>Looping to build the password string.</li>
+                            <li>Function parameters with default values.</li>
+                        </ul>
+                        <p><strong>How it works:</strong></p>
+                        <ol>
+                            <li>The <code>generate_password</code> function takes arguments for password length and character types.</li>
+                            <li>It builds a character set based on these arguments.</li>
+                            <li>It then randomly selects characters from this set to form the password.</li>
+                        </ol>
+                        <p>This is useful for creating secure passwords for various accounts.</p>
+                    `;
+                } else if (projectSlug === 'quiz-app') {
+                    codeContentElement.textContent = `
+// Python code for a simple Quiz Application
+def run_quiz(questions):
+    score = 0
+    for i, (question, options, correct_answer) in enumerate(questions):
+        print(f"\\nQuestion {i+1}: {question}")
+        for idx, option in enumerate(options):
+            print(f"  {chr(65+idx)}. {option}")
+        
+        while True:
+            user_answer_char = input("Your answer (A, B, C, etc.): ").upper()
+            if user_answer_char in [chr(65+j) for j in range(len(options))]:
+                user_answer_index = ord(user_answer_char) - 65
+                if options[user_answer_index] == correct_answer:
+                    print("Correct!")
+                    score += 1
+                else:
+                    print(f"Wrong! The correct answer was {correct_answer}.")
+                break
+            else:
+                print("Invalid option. Please choose from the given letters.")
+                
+    print(f"\\nQuiz finished! Your score: {score}/{len(questions)}")
+
+// Example questions:
+// (Question text, [Option1, Option2, ...], Correct Option Text)
+// sample_questions = [
+//     ("What is the capital of France?", ["London", "Paris", "Berlin", "Madrid"], "Paris"),
+//     ("Which planet is known as the Red Planet?", ["Earth", "Mars", "Jupiter", "Venus"], "Mars"),
+//     ("What is 2 + 2?", ["3", "4", "5", "22"], "4")
+// ]
+
+// Start the quiz
+// run_quiz(sample_questions)
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>Quiz Application Guide</h3>
+                        <p>A console-based quiz application that asks multiple-choice questions and keeps score.</p>
+                        <h4>Features:</h4>
+                        <ul>
+                            <li>Loads questions from a predefined list (easily extensible).</li>
+                            <li>Presents questions with options.</li>
+                            <li>Validates user input.</li>
+                            <li>Provides feedback and calculates the final score.</li>
+                        </ul>
+                        <p><strong>To use:</strong></p>
+                        <ol>
+                            <li>Define your list of questions in the format: <code>(question_string, [options_list], correct_answer_string)</code>.</li>
+                            <li>Call the <code>run_quiz</code> function with your list of questions.</li>
+                            <li>The script will guide the user through the quiz.</li>
+                        </ol>
+                        <p>This project helps understand data structures (lists, tuples), loops, and user interaction flow.</p>
+                    `;
+                } else if (projectSlug === 'file-organizer') {
+                    codeContentElement.textContent = `
+// Python code for File Organizer (Conceptual)
+import os
+import shutil
+
+def organize_files(directory_path):
+    """
+    Organizes files in a directory into subdirectories based on file extension.
+    Example: .txt files go to 'TextFiles', .jpg to 'Images', etc.
+    """
+    if not os.path.isdir(directory_path):
+        print(f"Error: Directory '{directory_path}' not found.")
+        return
+
+    print(f"Organizing files in: {directory_path}")
+    organized_count = 0
+
+    for filename in os.listdir(directory_path):
+        source_path = os.path.join(directory_path, filename)
+
+        if os.path.isfile(source_path): # Ensure it's a file, not a directory
+            file_extension = os.path.splitext(filename)[1].lower() # Get '.txt', '.jpg'
+            
+            if not file_extension: # Skip files with no extension
+                print(f"Skipping '{filename}' (no extension).")
+                continue
+
+            # Create a subdirectory name based on extension (e.g., 'txt_files', 'jpg_files')
+            # Or map common extensions to folder names (e.g. '.jpg', '.png' -> 'Images')
+            extension_folder_name = file_extension[1:] + "_Files" # Removes dot, e.g., "txt_Files"
+            
+            destination_folder_path = os.path.join(directory_path, extension_folder_name)
+
+            if not os.path.exists(destination_folder_path):
+                try:
+                    os.makedirs(destination_folder_path)
+                    print(f"Created directory: {destination_folder_path}")
+                except OSError as e:
+                    print(f"Error creating directory {destination_folder_path}: {e}")
+                    continue
+            
+            destination_path = os.path.join(destination_folder_path, filename)
+
+            try:
+                shutil.move(source_path, destination_path)
+                print(f"Moved '{filename}' to '{extension_folder_name}'")
+                organized_count += 1
+            except Exception as e:
+                print(f"Error moving '{filename}': {e}")
+                
+    print(f"\\nFile organization complete. {organized_count} files organized.")
+
+// WARNING: This script modifies your file system. Use with caution!
+// Test on a sample directory first.
+// target_directory = "/path/to/your/messy/folder" 
+// organize_files(target_directory)
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>File Organizer Guide</h3>
+                        <p>This script helps organize files in a specified directory by moving them into subdirectories based on their file extensions.</p>
+                        <h4>Key Modules:</h4>
+                        <ul>
+                            <li><code>os</code>: For interacting with the operating system (listing files, creating directories, path manipulation).</li>
+                            <li><code>shutil</code>: For high-level file operations like moving files.</li>
+                        </ul>
+                        <h4>Functionality:</h4>
+                        <ol>
+                            <li>Iterates through all files in the target directory.</li>
+                            <li>Extracts the file extension.</li>
+                            <li>Creates a new subdirectory for that extension type if it doesn't exist.</li>
+                            <li>Moves the file into the corresponding subdirectory.</li>
+                        </ol>
+                        <p><strong>IMPORTANT:</strong> This script directly modifies your file system. Always test it on a sample directory with backup copies of your files before running it on important data. Be very careful with the <code>target_directory</code> path.</p>
+                    `;
+                } else if (projectSlug === 'image-resizer') {
+                    codeContentElement.textContent = `
+// Python code for Image Resizer (using Pillow library)
+// Install Pillow: pip install Pillow
+from PIL import Image
+import os
+
+def resize_image(input_image_path, output_image_path, width=None, height=None, keep_aspect_ratio=True):
+    try:
+        img = Image.open(input_image_path)
+        original_width, original_height = img.size
+
+        if not width and not height:
+            print("Error: You must specify either width or height or both.")
+            return False
+
+        if keep_aspect_ratio:
+            if width and height: // If both specified, prioritize width and adjust height
+                 aspect_ratio = original_height / original_width
+                 height = int(width * aspect_ratio)
+            elif width:
+                aspect_ratio = original_height / original_width
+                height = int(width * aspect_ratio)
+            elif height:
+                aspect_ratio = original_width / original_height
+                width = int(height * aspect_ratio)
+        else: // Not keeping aspect ratio, use specified width/height or original if one is missing
+            if not width: width = original_width
+            if not height: height = original_height
+            
+        resized_img = img.resize((width, height), Image.Resampling.LANCZOS) // High-quality downsampling filter
+        
+        // Ensure output directory exists
+        output_dir = os.path.dirname(output_image_path)
+        if output_dir and not os.path.exists(output_dir):
+            os.makedirs(output_dir)
+            
+        resized_img.save(output_image_path)
+        print(f"Image '{input_image_path}' resized to {width}x{height} and saved as '{output_image_path}'")
+        return True
+    except FileNotFoundError:
+        print(f"Error: Input image '{input_image_path}' not found.")
+        return False
+    except Exception as e:
+        print(f"An error occurred: {e}")
+        return False
+
+// Example Usage:
+// input_path = "path/to/your/image.jpg"
+// output_path_fixed_width = "path/to/your/resized_image_width.jpg"
+// output_path_fixed_height = "path/to/your/resized_image_height.jpg"
+// output_path_specific_size = "path/to/your/resized_image_specific.jpg"
+
+// Resize by width, keeping aspect ratio
+// resize_image(input_path, output_path_fixed_width, width=800)
+
+// Resize by height, keeping aspect ratio
+// resize_image(input_path, output_path_fixed_height, height=600)
+
+// Resize to specific dimensions (may distort if keep_aspect_ratio is False)
+// resize_image(input_path, output_path_specific_size, width=400, height=300, keep_aspect_ratio=False)
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>Image Resizer Guide</h3>
+                        <p>A Python script that resizes images using the Pillow (PIL Fork) library.</p>
+                        <h4>Prerequisites:</h4>
+                        <ul>
+                            <li>Install Pillow: <code>pip install Pillow</code> in your terminal.</li>
+                        </ul>
+                        <h4>Features:</h4>
+                        <ul>
+                            <li>Opens an image file.</li>
+                            <li>Resizes it to a specified width, height, or both.</li>
+                            <li>Option to maintain the original aspect ratio to prevent distortion.</li>
+                            <li>Saves the resized image to a new file.</li>
+                            <li>Uses high-quality resampling (LANCZOS) for better results.</li>
+                        </ul>
+                        <p><strong>How to use:</strong></p>
+                        <ol>
+                            <li>Make sure Pillow is installed.</li>
+                            <li>Provide the <code>input_image_path</code> and <code>output_image_path</code>.</li>
+                            <li>Specify either <code>width</code>, <code>height</code>, or both.
+                            <li>Choose whether to <code>keep_aspect_ratio</code> (True by default).</li>
+                        </ol>
+                        <p>This is useful for batch processing images, creating thumbnails, or preparing images for web use.</p>
+                    `;
+                } else if (projectSlug === 'url-shortener') {
+                    codeContentElement.textContent = `
+// Python code for URL Shortener (Conceptual - typically needs a service or database)
+import hashlib
+import base64
+
+// This is a very basic in-memory shortener, not persistent and not globally unique.
+// For a real URL shortener, you'd use a database and a proper collision-resistant generation.
+url_mapping = {} 
+base_short_url_domain = "http://short.ly/" // Example domain
+
+def shorten_url(long_url):
+    // Generate a hash of the long URL
+    // Using first 6 chars of sha256 hash for simplicity, might have collisions
+    hasher = hashlib.sha256(long_url.encode('utf-8'))
+    // Use base64 encoding for a shorter, URL-friendly string
+    // Take a slice of the hash to keep it short
+    short_code = base64.urlsafe_b64encode(hasher.digest()[:6]).decode('utf-8').rstrip('=')
+    
+    // Store mapping (in a real app, this goes to a DB)
+    // Handle collisions in a real app (e.g., append a counter, regenerate)
+    if short_code not in url_mapping:
+        url_mapping[short_code] = long_url
+    elif url_mapping[short_code] != long_url:
+        // Basic collision handling: append a number if code exists but for different URL
+        count = 1
+        new_short_code = f"{short_code}{count}"
+        while new_short_code in url_mapping and url_mapping[new_short_code] != long_url:
+            count += 1
+            new_short_code = f"{short_code}
+                    `;
+                    guideContentElement.innerHTML = `
+                        <h3>URL Shortener Guide</h3>
+                        <p>This script generates shortened URLs for input URLs, useful for sharing links or fitting URLs into small spaces.</p>
+                        <h4>Key Concepts:</h4>
+                        <ul>
+                            <li>Hashing (<code>hashlib</code> library) to generate short codes.</li>
+                            <li>Base64 encoding for making the short code URL-friendly.</li>
+                            <li>A simple in-memory mapping of short codes to original URLs.</li>
+                        </ul>
+                        <p><strong>How it works:</strong></p>
+                        <ol>
+                            <li>The user inputs a long URL.</li>
+                            <li>A hash is generated from the URL, and a portion of this hash is taken to create a short code.</li>
+                            <li>This short code is stored in a mapping along with the original URL.</li>
+                            <li>When the short URL is visited, it redirects to the original URL based on the mapping.</li>
+                        </ol>
+                        <p>This project introduces the concept of hashing and URL encoding, along with basic database concepts for storing and retrieving data.</p>
+                    `;
+                } else {
+                    codeContentElement.textContent = `// Code for ${projectDisplayName} will be displayed here.`;
+                    guideContentElement.innerHTML = `
+                        <h3>Guide for ${projectDisplayName}</h3>
+                        <p>Detailed guide, comments, and setup instructions for the <strong>${projectDisplayName}</strong> project will appear here soon.</p>
+                        <p>Currently, the content for this specific project is under development. Please check back later for full details on its codebase and functionality.</p>
+                    `;
+                }
+            }
+            document.getElementById('currentYear').textContent = new Date().getFullYear();
+        });
+    </script>
+</body>
+</html>

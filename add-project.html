@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Project</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            background-color: #f9f9f9;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        .header-simple {
+            background-color: #fff;
+            padding: 15px 30px;
+            border-bottom: 1px solid #eaeaea;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            box-sizing: border-box;
+        }
+         .header-simple .logo-simple {
+            font-weight: 700;
+            font-size: 20px;
+            color: #000;
+        }
+        .logo-simple svg {
+             width: 20px;
+             height: 20px;
+             fill: #000;
+             margin-right: 8px;
+             vertical-align: middle;
+        }
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background-color: #f0f0f0;
+            color: #333;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        .back-link:hover {
+            background-color: #e0e0e0;
+        }
+        .placeholder-content {
+            margin-top: 100px; /* Account for fixed header */
+        }
+        h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #000;
+            margin-bottom: 16px;
+        }
+        p {
+            font-size: 16px;
+            color: #555;
+            margin-bottom: 24px;
+            max-width: 500px;
+        }
+        .footer-simple {
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+            color: #777;
+            border-top: 1px solid #eaeaea;
+            background-color: #fff;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header-simple">
+         <div class="logo-simple">
+            <svg aria-hidden="true" fill="none" focusable="false" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2L14.09 8.26L20.97 8.27L15.45 12.97L17.54 19.23L12 14.53L6.46 19.23L8.55 12.97L3.03 8.27L9.91 8.26L12 2Z" fill="currentColor"></path></svg>
+            Charm Underground
+        </div>
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Projects</a>
+    </header>
+
+    <div class="placeholder-content">
+        <h1>Add New Project</h1>
+        <p>This is where the functionality to add new projects will be. For now, it's a placeholder page.</p>
+        <i class="fas fa-tools fa-3x" style="color: #ccc; margin-bottom:20px;"></i>
+        <p>Imagine a form here to input project details, upload files, or select templates!</p>
+    </div>
+    
+    <footer class="footer-simple">
+        &copy; <span id="currentYear"></span> Charm Underground. All rights reserved.
+    </footer>
+    <script>document.getElementById('currentYear').textContent = new Date().getFullYear();</script>
+</body>
+</html>
